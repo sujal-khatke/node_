@@ -2,12 +2,18 @@ const { concat } = require("lodash");
 const mongoose = require("mongoose");
 
 //Define yhe mongodb connection url
-//const mongoURL = process.env.MONGODB_URL_LOCAL ;
-const mongoURL = process.env.MONGODB_URL;
+const mongoURL = process.env.MONGODB_URL_LOCAL ;
+/*const mongoURL = process.env.MONGODB_URL;
+if (!mongoURL) {
+    throw new Error('MONGODB_URL environment variable is not defined');
+} */
 
+//Set mongodb connection with options
+//mongoose.connect(mongoURL);
+mongoose.connect(mongoURL)
+    .then(() => console.log("Connected to MongoDB server"))
+    .catch(err => console.error("Mongodb connection error:", err));
 
-//Set mongodb connection
-mongoose.connect(mongoURL);
 
 //Get default connection
 //Mongoose maintains a default connection object represnting the Mongodb connection.
@@ -20,7 +26,7 @@ db.on('connected', () => {
     console.log("Connected to Mongodb server");
 })
 db.on('error', () => {
-    console.log("Mongodb connection error");
+    console.error("Mongodb connection error");
 })
 db.on('disconnected', () => {
     console.log("Mongodb disconnected");
